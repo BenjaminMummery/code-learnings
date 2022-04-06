@@ -5,97 +5,142 @@ repos:
     rev: v4.1.0
     hooks:
     -   id: check-added-large-files
+        log_file: logs/check-added-large-files.log
     -   id: check-case-conflict
-    -   id: check-executables-have-shebangs
+        log_file: logs/check-case-conflict.log
+    # -   id: check-executables-have-shebangs
     -   id: check-json
+        log_file: logs/check-json.log
     -   id: pretty-format-json
         args: ['--autofix']
+        log_file: logs/pretty-format-json.log
     -   id: check-merge-conflict
+        log_file: logs/check-merge-conflict.log
     -   id: check-symlinks
+        log_file: logs/check-symlinks.log
     -   id: check-toml
+        log_file: logs/check-toml.log
     -   id: check-vcs-permalinks
+        log_file: logs/check-vcs-permalinks.log
     -   id: check-xml
+        log_file: logs/check-xml.log
     -   id: check-yaml
+        log_file: logs/check-yaml.log
     -   id: destroyed-symlinks
+        log_file: logs/destroyed-symlinks.log
     -   id: detect-private-key
+        log_file: logs/detect-private-key.log
     -   id: end-of-file-fixer
+        log_file: logs/end-of-file-fixer.log
     -   id: file-contents-sorter
         files: .gitignore|.dockerignore
         args: [--unique]
+        log_file: logs/file-contents-sorter.log
     -   id: fix-byte-order-marker
+        log_file: logs/fix-byte-order-marker.log
     -   id: forbid-new-submodules
+        log_file: logs/forbid-new-submodules.log
     -   id: mixed-line-ending
+        log_file: logs/mixed-line-ending.log
     -   id: name-tests-test
+        log_file: logs/name-tests-test.log
     -   id: no-commit-to-branch
+        log_file: logs/no-commit-to-branch.log
     -   id: requirements-txt-fixer
+        log_file: logs/requirements-txt-fixer.log
     -   id: sort-simple-yaml
+        log_file: logs/sort-simple-yaml.log
     -   id: trailing-whitespace
+        log_file: logs/trailing-whitespace.log
 
 # PYTHON #######################################################################
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 'v4.1.0'
     hooks:
     -   id: check-ast
+        log_file: logs/check-ast.log
     -   id: check-builtin-literals
+        log_file: logs/check-builtin-literals.log
     -   id: check-docstring-first
+        log_file: logs/check-docstrings-first.log
     -   id: debug-statements
+        log_file: logs/debug-statements.log
     # -   id: double-quote-string-fixer
-    # -   id: fix-encoding_pragma
+    -   id: fix-encoding-pragma
+        log_file: logs/fix-encoding-pragma.log
 -   repo: https://github.com/pre-commit/mirrors-autopep8
     rev: 'v1.6.0'
     hooks:
     -   id: autopep8
+        log_file: logs/autopep8.log
 -   repo: https://github.com/pre-commit/mirrors-mypy
     rev: 'v0.942'
     hooks:
     -   id: mypy
+        log_file: logs/mypy.log
 -   repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.9.0'
     hooks:
     -   id: python-check-blanket-noqa
+        log_file: logs/python-check-blanket-noqa.log
     -   id: python-check-blanket-type-ignore
+        log_file: logs/python-check-blanket-type-ignore.log
     -   id: python-check-mock-methods
+        log_file: logs/python-check-mock-methods.log
     -   id: python-no-eval
+        log_file: logs/python-no-eval.log
     -   id: python-no-log-warn
+        log_file: logs/python-no-log-warn.log
     -   id: python-use-type-annotations
+        log_file: logs/python-use-type-annotations.log
 -   repo: https://github.com/asottile/add-trailing-comma
     rev: 'v2.2.2'
     hooks:
     -   id: add-trailing-comma
+        log_file: logs/add-trailing-comma.log
 -   repo: https://github.com/asottile/yesqa
     rev: 'v1.3.0'
     hooks:
     -   id: yesqa
+        log_file: logs/yesqa.log
 -   repo: https://github.com/asottile/dead
     rev: 'v1.4.0'
     hooks:
     -   id: dead
+        log_file: logs/dead.log
 -   repo: https://github.com/psf/black
     rev: '22.3.0'
     hooks:
     -   id: black
+        log_file: logs/black.log
     -   id: black-jupyter
+        log_file: logs/black-jupyter.log
 -   repo: https://github.com/PyCQA/bandit
     rev: '1.7.4'
     hooks:
     -   id: bandit
+        log_file: logs/bandit.log
 -   repo: https://github.com/myint/docformatter
     rev: 'v1.4'
     hooks:
     -   id: docformatter
+        log_file: logs/docformatter.log
 -   repo: https://github.com/PyCQA/pylint
     rev: 'v2.13.4'
     hooks:
     -   id: pylint
+        log_file: logs/pylint.log
 -   repo: https://github.com/PyCQA/isort
     rev: '5.10.1'
     hooks:
     -   id: isort
         args: ['black']
+        log_file: logs/isort.log
 -   repo: https://github.com/hadialqattan/pycln
     rev: 'v1.2.5'
     hooks:
     -   id: pycln
+        log_file: logs/pycln.log
 # -   repo: https://github.com/snok/pep585-upgrade
 #     rev: 'v1'
 #     hooks:
@@ -107,7 +152,9 @@ repos:
     hooks:
     -   id: markdownlint-fix
         args: [-f]
+        log_file: logs/markdownlint-fix.log
 -   repo: https://github.com/frnmst/md-toc
     rev: '8.1.2'
     hooks:
     -   id: md-toc
+        log_file: logs/md-toc.log
