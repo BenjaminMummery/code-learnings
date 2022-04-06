@@ -15,98 +15,145 @@ repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
+    # Prevent adding large files
     -   id: check-added-large-files
+        args: ['--maxkb=500']
         log_file: logs/hooks/check-added-large-files.log
 
+    # Prevent adding files with names differentiated by case
     -   id: check-case-conflict
         log_file: logs/hooks/check-case-conflict.log
 
-    -   id: check-json
-        log_file: logs/hooks/check-json.log
-
-    -   id: pretty-format-json
-        args: ['--autofix']
-        log_file: logs/hooks/pretty-format-json.log
-
+    # Prevent adding files with merge conflict strings
     -   id: check-merge-conflict
         log_file: logs/hooks/check-merge-conflict.log
 
+    # Prevent adding symlinks that do not point to anything
     -   id: check-symlinks
         log_file: logs/hooks/check-symlinks.log
 
+    # Prevent adding TOML files that do not load
     -   id: check-toml
         log_file: logs/hooks/check-toml.log
 
+    # Prevent adding files with links to VCS sites that are not permalinks
     -   id: check-vcs-permalinks
+        # args: ['--additional-github-domain github.example.com']
         log_file: logs/hooks/check-vcs-permalinks.log
 
+    # Prevent adding XML files that do not load
     -   id: check-xml
         log_file: logs/hooks/check-xml.log
 
+    # Prevent adding YAML files that do not load
     -   id: check-yaml
+        args: ['--allow-multiple-documents']
         log_file: logs/hooks/check-yaml.log
 
+    # Prevent adding symlinks which have been destroyed
     -   id: destroyed-symlinks
         log_file: logs/hooks/destroyed-symlinks.log
 
+    # Prevent adding files that contain strings that look like private ssh keys
     -   id: detect-private-key
         log_file: logs/hooks/detect-private-key.log
 
+    # Modify files to ensure they end in a blank newline
     -   id: end-of-file-fixer
         log_file: logs/hooks/end-of-file-fixer.log
 
+    # Modify files sorting their lines alphabetically.
     -   id: file-contents-sorter
         files: .gitignore|.dockerignore
-        args: [--unique]
+        args: [--unique]    # delete duplicate lines
         log_file: logs/hooks/file-contents-sorter.log
 
+    # Modify files to remove UTF-8 byte order marker
     -   id: fix-byte-order-marker
         log_file: logs/hooks/fix-byte-order-marker.log
 
+    # Prevent addition of new submodules
     -   id: forbid-new-submodules
         log_file: logs/hooks/forbid-new-submodules.log
 
+    # Modify files to have consistent line endings, options are:
     -   id: mixed-line-ending
+        args: [--fix=auto]  # crlf (win), lf (Unix), cr (mac), auto (most
+                            # common), no (no changes, just raise error)
         log_file: logs/hooks/mixed-line-ending.log
 
-    -   id: name-tests-test
-        log_file: logs/hooks/name-tests-test.log
-
+    # Prevent commits directly to specified branches
     -   id: no-commit-to-branch
+        args: [
+            -b, main,
+            -b, master,
+            -b, dev,
+            -b, develop]
         log_file: logs/hooks/no-commit-to-branch.log
 
-    -   id: requirements-txt-fixer
-        log_file: logs/hooks/requirements-txt-fixer.log
-
+    # Modify YAML files with only top-level keys so that keys are sorted
     -   id: sort-simple-yaml
+        # files: path/to/file # Note: matches no files by default
         log_file: logs/hooks/sort-simple-yaml.log
 
+    # Modify files to remove trailing whitespace
     -   id: trailing-whitespace
         log_file: logs/hooks/trailing-whitespace.log
 
+    # Prevent adding files that are marked executable but lack shebangs
     # Disable if using windows or WSL
     # -   id: check-executables-have-shebangs
     #     log_file: logs/hooks/check-executables-have-shebangs.log
+
+# JSON #########################################################################
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+    # Prevent adding files fo not parse as valid JSON
+    -   id: check-json
+        log_file: logs/hooks/check-json.log
+
+    # Modify JSON files so they're more human readable
+    -   id: pretty-format-json
+        args: ['--autofix']
+        log_file: logs/hooks/pretty-format-json.log
 
 # PYTHON #######################################################################
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 'v4.1.0'
     hooks:
+    # Prevent adding .py files that do not parse as valid python
     -   id: check-ast
         log_file: logs/hooks/check-ast.log
 
+    # Prevent adding .py files that do not use literal syntax to initialize
+    # builtins
     -   id: check-builtin-literals
         log_file: logs/hooks/check-builtin-literals.log
 
+    # Prevent adding .py files that have code before their docstring
     -   id: check-docstring-first
         log_file: logs/hooks/check-docstrings-first.log
 
+    # Prevent adding .py files with debugger imports or py37+ breakpoint() calls
     -   id: debug-statements
         log_file: logs/hooks/debug-statements.log
 
+    # Modify .py files to add # -*- coding: utf-8 -*- marker
     -   id: fix-encoding-pragma
+        args: [--remove]    # remove markers instead. Use in python3-only cases
         log_file: logs/hooks/fix-encoding-pragma.log
 
+    # Prevent adding python files to the tests/ dir that do not match *_test.py
+    -   id: name-tests-test
+        args: ['--django']  # match test_*.py rather then *_test.py
+        log_file: logs/hooks/name-tests-test.log
+
+    # Modify requirements.txt to sort & remove erronious pkg-resources==0.0.0
+    -   id: requirements-txt-fixer
+        log_file: logs/hooks/requirements-txt-fixer.log
+
+    # Modify files to replace double quotes with single.
     # Disable if using black
     # -   id: double-quote-string-fixer
     #     log_file: logs/hooks/double-quote-string-fixer.log
@@ -114,103 +161,124 @@ repos:
 -   repo: https://github.com/pre-commit/mirrors-autopep8
     rev: 'v1.6.0'
     hooks:
+    # Modify .py files to apply PEP-8 rules
     -   id: autopep8
         log_file: logs/hooks/autopep8.log
 
 -   repo: https://github.com/pre-commit/mirrors-mypy
     rev: 'v0.942'
     hooks:
+    # Prevent adding .py files with incorrect PEP-484 type-hints
     -   id: mypy
         log_file: logs/hooks/mypy.log
 
 -   repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.9.0'
     hooks:
+    # Prevent adding .py files containing noqa annotations without codes
     -   id: python-check-blanket-noqa
         log_file: logs/hooks/python-check-blanket-noqa.log
 
+    # Prevent adding .py files containing type: ignore annotations without codes
     -   id: python-check-blanket-type-ignore
         log_file: logs/hooks/python-check-blanket-type-ignore.log
 
+    # Prevent adding .py files containing common errors in mock method asserts
     -   id: python-check-mock-methods
         log_file: logs/hooks/python-check-mock-methods.log
 
+    # Prevent adding .py files containing classes with no eval() builtin
     -   id: python-no-eval
         log_file: logs/hooks/python-no-eval.log
 
+    # Prevent adding .py files containing the deprecated .warn()
     -   id: python-no-log-warn
         log_file: logs/hooks/python-no-log-warn.log
 
+    # Prevent adding .py files that use comments rather than type annotations
     -   id: python-use-type-annotations
         log_file: logs/hooks/python-use-type-annotations.log
 
 -   repo: https://github.com/asottile/add-trailing-comma
     rev: 'v2.2.2'
     hooks:
+    # Modify .py files to add a trailing comma to calls and literals
     -   id: add-trailing-comma
         log_file: logs/hooks/add-trailing-comma.log
 
 -   repo: https://github.com/asottile/yesqa
     rev: 'v1.3.0'
     hooks:
+    # Modify .py files to remove unused # noqa comments
     -   id: yesqa
         log_file: logs/hooks/yesqa.log
 
 -   repo: https://github.com/asottile/dead
     rev: 'v1.4.0'
     hooks:
+    # Prevent adding .py files with dead code
     -   id: dead
         log_file: logs/hooks/dead.log
 
 -   repo: https://github.com/psf/black
     rev: '22.3.0'
     hooks:
+    # Modify .py files to apply black formatting rules
     -   id: black
         log_file: logs/hooks/black.log
 
+    # Modify .py files and Jupyter Notebooks to apply black formatting rules
     -   id: black-jupyter
         log_file: logs/hooks/black-jupyter.log
 
 -   repo: https://github.com/PyCQA/bandit
     rev: '1.7.4'
     hooks:
+    # Prevent adding .py files that fail basic security checks
     -   id: bandit
         log_file: logs/hooks/bandit.log
 
 -   repo: https://github.com/myint/docformatter
     rev: 'v1.4'
     hooks:
+    # Modify .py files to apply PEP-257 rules for docstrings
     -   id: docformatter
         log_file: logs/hooks/docformatter.log
 
--   repo: https://github.com/PyCQA/pylint
-    rev: 'v2.13.4'
-    hooks:
-    -   id: pylint
-        log_file: logs/hooks/pylint.log
-
--   repo: https://github.com/PyCQA/isort
-    rev: '5.10.1'
-    hooks:
-    -   id: isort
-        args: ['black']
-        log_file: logs/hooks/isort.log
-
 -   repo: https://github.com/hadialqattan/pycln
     rev: 'v1.2.5'
+    # Modify .py files to remove unused imports
     hooks:
     -   id: pycln
         log_file: logs/hooks/pycln.log
+
+-   repo: https://github.com/PyCQA/isort
+    rev: '5.10.1'
+    # Modify .py files to sort imports
+    hooks:
+    -   id: isort
+        args: ['black'] # Avoid clashes with black
+        log_file: logs/hooks/isort.log
 
 # -   repo: https://github.com/snok/pep585-upgrade
 #     rev: 'v1'
 #     hooks:
 #     -   id: upgrade-type-hints
 
+-   repo: https://github.com/PyCQA/pylint
+    rev: 'v2.13.4'
+    hooks:
+    # Prevent adding .py files that fall below pylint's quality threshold.
+    -   id: pylint
+        log_file: logs/hooks/pylint.log
+
+
+
 # MARKDOWN #####################################################################
 -   repo: https://github.com/igorshubovych/markdownlint-cli
     rev: 'v0.31.1'
     hooks:
+    # Modify .md files to fix formatting errors.
     -   id: markdownlint-fix
         args: [-f]
         log_file: logs/hooks/markdownlint-fix.log
@@ -218,5 +286,12 @@ repos:
 -   repo: https://github.com/frnmst/md-toc
     rev: '8.1.2'
     hooks:
+    # Modify .md files to add / update table of contents (requires TOC comment)
     -   id: md-toc
         log_file: logs/hooks/md-toc.log
+
+-   repo: https://github.com/asottile/blacken-docs
+    rev: 'v1.12.1'
+    hooks:
+    # Modify .md files to apply black rules to embedded python codeblocks
+    -   id: blacken-docs
