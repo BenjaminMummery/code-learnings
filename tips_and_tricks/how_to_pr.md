@@ -35,4 +35,3 @@
   - Unambiguous?
   - Necessary?
   - Do they record _intent_ and _decisions_?
-- Line by Line
