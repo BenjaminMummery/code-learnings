@@ -20,3 +20,5 @@ alias pytestc='pytest --cov-report term-missing --cov-config=$HOME/.coveragerc -
 alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
 alias gh='history|grep'
 
+# Set useful environment variables
+export PYLINTRC=$HOME/.pylintrc

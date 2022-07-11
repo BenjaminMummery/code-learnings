@@ -1,0 +1,10 @@
+*scratch*
+.coverage
+.DS_Store
+.mypy_cache
+.pre-commit-config.yaml
+.pytest_cache
+.vscode
+__pycache__/
+env
+venv
