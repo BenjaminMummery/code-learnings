@@ -1,0 +1,131 @@
+---
+default_install_hook_types: [pre-commit, pre-merge-commit, pre-push, prepare-commit-msg,commit-msg, post-checkout, post-commit, post-merge, post-rewrite]
+default_stages: [commit, push]
+
+exclude: |
+    (?x)(
+      setup.py|
+      pyproject.toml|
+      __init__.py
+    )
+
+repos:
+    # GENERAL PURPOSE ##################################################################
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.3.0
+      hooks:
+          - id: check-added-large-files
+            args: [--maxkb=500]
+          - id: check-case-conflict
+          - id: check-merge-conflict
+            args: [--assume-in-merge]
+          - id: check-symlinks
+          - id: check-vcs-permalinks
+          - id: destroyed-symlinks
+          - id: detect-private-key
+          - id: end-of-file-fixer
+          - id: file-contents-sorter
+            args: [--ignore-case, --unique]
+            files: .gitignore
+          - id: fix-byte-order-marker
+          - id: forbid-new-submodules
+          - id: mixed-line-ending
+          - id: name-tests-test
+            args: [--django]
+            # --django to match `test<name>`, otheriwse matches `<name>test`
+          - id: no-commit-to-branch
+            args: [-b, main, -b, master, -b, dev, -b, develop]
+            stages: [commit]
+          - id: trailing-whitespace
+            args: [--markdown-linebreak-ext=md]
+          - id: check-executables-have-shebangs
+          # - id: check-shebang-scripts-are-executable
+
+    - repo: https://github.com/commitizen-tools/commitizen
+      # Enforce acceptable prefix to commit msg.
+      # (build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert|bump)(\(\S+\))?!?:(\s.*)
+      rev: 'v2.27.1'
+      hooks:
+          - id: commitizen
+
+    - repo: https://github.com/BenjaminMummery/add-msg-issue-prefix-hook
+      # Find jira ticket in branch name and insert it into commit msg.
+      rev: 'v0.1.1'
+      hooks:
+          - id: add-msg-issue-prefix
+
+    - repo: https://github.com/codespell-project/codespell
+      # Check for common typos.
+      rev: 'v2.1.0'
+      hooks:
+          - id: codespell
+
+    # CMAKE ############################################################################
+    - repo: https://github.com/cheshirekow/cmake-format-precommit
+      rev: 'v0.6.13'
+      hooks:
+          - id: cmake-format
+          - id: cmake-lint
+
+    # MARKDOWN #########################################################################
+    - repo: https://github.com/frnmst/md-toc
+      # Add/update table of contents to markdown files.
+      # Use `<!--TOC-->` to indicate where the TOC should be placed. Extant TOCs are
+      # preceeded and appended by `<!--TOC-->`
+      rev: '8.1.4'
+      hooks:
+          - id: md-toc
+
+    # PYTHON ###########################################################################
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      # Basic validation and checks
+      rev: v4.3.0
+      hooks:
+          # Do files parse as valid?
+          - id: check-ast
+          # Enforce literal syntax for empty or 0 python builtin types.
+          - id: check-builtin-literals
+          # Docstrings must come before the code they document.
+          - id: check-docstring-first
+          # Check for debug statements left in code.
+          - id: debug-statements
+          # Remove encoding pragma (if present).
+          - id: fix-encoding-pragma
+            args: [--remove]
+          # Sort requirements and ensure that entries are unique.
+          - id: requirements-txt-fixer
+
+    - repo: https://github.com/hadialqattan/pycln
+      # Remove unused imports
+      rev: v1.3.5
+      hooks:
+          - id: pycln
+
+    - repo: https://github.com/PyCQA/isort
+      # Sort imports
+      rev: 5.10.1
+      hooks:
+          - id: isort
+            args: [--profile, black] # needed to avoid clashing with black.
+
+    - repo: https://github.com/dannysepler/rm_unneeded_f_str
+      # Turn f-strings that don't need to be f-strings into regular strings.
+      rev: v0.1.0
+      hooks:
+          - id: rm-unneeded-f-str
+
+    - repo: https://github.com/psf/black
+      rev: 22.6.0
+      hooks:
+          - id: black
+
+    - repo: https://github.com/PyCQA/flake8
+      rev: '4.0.1'
+      hooks:
+          - id: flake8
+            args: ['--ignore=E203,E266,F401,W503', '--max-line-length=88']
+
+    # - repo: https://github.com/pre-commit/mirrors-mypy
+    #   rev: v0.950
+    #   hooks:
+    #       - id: mypy

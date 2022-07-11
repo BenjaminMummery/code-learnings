@@ -12,6 +12,7 @@
     - [`.coveragerc`](#coveragerc)
     - [`.gitconfig`](#gitconfig)
     - [`.gitignore`](#gitignore)
+    - [`.pre-commit-config.yaml`](#pre-commit-configyaml)
 
 <!--TOC-->
 
@@ -38,11 +39,11 @@ Template for new git repos. Sets all hooks to point to pre-commit so that they c
 
 ### `.bash_profile`
 
-- Sources `.bashrc` if we're in an interactive shell.
+- Sources [`.bashrc`](#bashrc) if we're in an interactive shell.
 
 ### `.bashrc`
 
-- Sources the contents of .bash_functions
+- Sources the contents of [`.bash_functions`](#bash_functions).
 - Sets `python` to point to python3
 - Sets the PYLINTRC environment variable
 - Sets the following QoL aliases:
@@ -78,6 +79,7 @@ Template for new git repos. Sets all hooks to point to pre-commit so that they c
     1002  python3
     1017  pytestc
     ```
+  - `pcinit`: create a symbolic link to `~/.pre-commit-config.yaml` in the current working directory. We use this to share pre-commit configurations across repos.
 
 ### `.coveragerc`
 
@@ -90,10 +92,16 @@ Configuration for pytest-cov.
 
 ### `.gitconfig`
 
-Global config file for git. The main feature here is the `[core] excludesfile` entry which points to `~/.gitignore`. This means that the gitignore file in the HOME directory will be applied to all repose, saving you the effort of adding things like `venv` to the gitingnore in every single repo. This can be augmented with gitignore files in individual repos.
+Global config file for git. The main feature here is the `[core]:excludesfile` entry which points to `~/.gitignore`. This means that the [.gitignore](#gitignore) file in the HOME directory will be applied to all repose, saving you the effort of adding things like `venv` to the gitingnore in every single repo. This can be augmented with gitignore files in individual repos.
 
-You may wish to alter the `[core] editor` entry to your preferred editor.
+You may wish to alter the `[core]:editor` entry to your preferred editor.
 
 ### `.gitignore`
 
-Global .gitignore file.
+Global .gitignore file. The [.gitconfig](#gitconfig) file included above tells git where to find this.
+
+Most of the exclusions are pretty standard, we will draw attention to `*scratch*`, which excludes any file with "scratch" somewhere in their name or path. We use this for test files or quick notes which should never be committed.
+
+### `.pre-commit-config.yaml`
+
+Configuration file for `pre-commit`. In our experience, a shared configuration is the most useful approach, so we use this as the single source of truth anc create symlinks to it with the `pcinit` command alias provided by our [`.bashrc`](#bashrc).
