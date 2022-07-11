@@ -13,6 +13,7 @@
     - [`.gitconfig`](#gitconfig)
     - [`.gitignore`](#gitignore)
     - [`.pre-commit-config.yaml`](#pre-commit-configyaml)
+  - [Tips and Tricks](#tips-and-tricks)
 
 <!--TOC-->
 
@@ -104,4 +105,8 @@ Most of the exclusions are pretty standard, we will draw attention to `*scratch*
 
 ### `.pre-commit-config.yaml`
 
-Configuration file for `pre-commit`. In our experience, a shared configuration is the most useful approach, so we use this as the single source of truth anc create symlinks to it with the `pcinit` command alias provided by our [`.bashrc`](#bashrc).
+Configuration file for `pre-commit`. In our experience, a shared configuration is the most useful approach, so we use this as the single source of truth anc create symlinks to it with the `pcinit` command alias provided by our [`.bashrc`](#bashrc).## Tips and Tricks
+
+## Tips and Tricks
+
+The tips_and_tricks directory contains notes on useful habits, shortcuts, and techniques.
