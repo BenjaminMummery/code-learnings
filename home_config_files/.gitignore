@@ -1,0 +1,9 @@
+*scratch*
+.coverage
+.DS_Store
+.mypy_cache
+.pytest_cache
+.vscode
+__pycache__/
+env
+venv

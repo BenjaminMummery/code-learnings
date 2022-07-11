@@ -1,0 +1,11 @@
+[init]
+	defaultBranch = main
+	templateDir = $HOME/.git-template
+[user]
+	name =
+	email =
+[core]
+	editor = code -w
+	excludesfile = $HOME/.gitignore
+[web]
+    browser = google-chrome
